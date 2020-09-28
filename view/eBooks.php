@@ -19,14 +19,14 @@
 <div class="row">
  <div class="column left">
   <div class="topnav">
-    <a href="../index.html">Re-Read</a>
+    <a href="../index.php">Re-Read</a>
     <a href="libros.html">Libros</a>
     <a href="eBooks.html">eBooks</a>
   </div>
     <h2>Toda la actualidad en eBook</h2>
     <p>Libros casi nuevos a un precio casi imposible.</p>
 
-    <div class="ebook">
+    <!--<div class="ebook">
       <a href="http://www.sensacine.com/peliculas/pelicula-128759/" target="_blank"><img src="../img/cell.jpeg" alt="ebook 1">
     <div>A través de los teléfonos móviles se envía un mensaje que convierte a todos en esclavos asesinos...</div>
     </div></a>
@@ -42,8 +42,30 @@
       <a href="http://www.sensacine.com/peliculas/pelicula-863/" target="_blank"><img src="../img/elresplandor.jpeg" alt="ebook 3">
     <div>Esa es la palabra que Danny había visto en el espejo. Y, aunque no sabía leer, entendió que era un mensaje de horror...</div>
     </div></a>
- </div>
+ </div>-->
   
+ <?php
+ //Conexion a BDE
+ include "../services/connection.php";
+ //Seleccion y muestra de base de datos
+ $result = mysqli_query($conexion, "SELECT Books.Description, Books.img, Books.Title FROM Books WHERE eBook != '0'");
+
+ if(!empty($result) && mysqli_num_rows($result) > 0) {
+   //Datos de salirda de cada fila (fila = row)
+   while ($row = mysqli_fetch_array($result)) {
+     echo "<div class='ebook'>";
+     //Añadimos la imagen la pagina con la etiqueta img de HTML
+     echo "<img src=../img/".$row['img']." alt=".$row['Title']."'>";
+     //Añadimos el titulo de la pagina con la etiqueta H2
+     echo "<div class='desc'>".$row['Title']."</div>";
+     echo "</div>";
+   }
+ } else{
+   echo "0 resultados";
+ }
+
+?>
+
   <div class="column right">
     <h2>Top ventas</h2>
     <p>Cien años de soledad.</p>
