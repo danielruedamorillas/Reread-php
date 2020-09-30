@@ -19,8 +19,8 @@
 <div class="row">
  <div class="column left">
   <div class="topnav">
-    <a href="index.html">Re-Read</a>
-    <a href="view/libros.html">Libros</a>
+    <a href="index.php">Re-Read</a>
+    <a href="view/libros.php">Libros</a>
     <a href="view/eBooks.php">eBooks</a>
   </div>
     <h2>Nunca la lectura ha sido tan necesaria</h2>
@@ -31,12 +31,21 @@
   
   <div class="column right">
     <h2>Top ventas</h2>
-    <p>Cien años de soledad.</p>
-    <p>Crónica de una muerte anunciada.</p>
-    <p>El otoño del patriarca.</p>
-    <p>El general en su laberinto.</p>
-  </div>
+<?php
+ //Conexion a BDE
+ include "services/connection.php";
+ //Seleccion y muestra de base de datos
+ $result = mysqli_query($conexion, "SELECT Books.Title FROM Books WHERE Top = '1'");
+ if(!empty($result) && mysqli_num_rows($result) > 0) {
+  //Datos de salirda de cada fila (fila = row)
+  while ($row = mysqli_fetch_array($result)) {
+    echo "<p>".$row['Title']."</p>";
+  }
+} else{
+  echo "0 resultados";
+}
+?>
 </div>
-  
+</div>
 </body>
 </html>
