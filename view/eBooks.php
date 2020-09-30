@@ -26,63 +26,75 @@
     <h2>Toda la actualidad en eBook</h2>
     <p>Libros casi nuevos a un precio casi imposible.</p>
 
-    <!--<div class="ebook">
-      <a href="http://www.sensacine.com/peliculas/pelicula-128759/" target="_blank"><img src="../img/cell.jpeg" alt="ebook 1">
+    <!-- <div class="ebook">
+      <a href="https://www.filmaffinity.com/es/film336427.html"><img src="../img/cell.jpeg" alt="ebook 1">
     <div>A través de los teléfonos móviles se envía un mensaje que convierte a todos en esclavos asesinos...</div>
     </div></a>
     <div class="ebook">
-      <a href="http://www.sensacine.com/peliculas/pelicula-50833/" target="_blank"><img src="../img/doctorsleep.jpeg" alt="ebook 2">
+      <a href="https://www.filmaffinity.com/es/film140751.html"><img src="../img/doctorsleep.jpeg" alt="ebook 2">
   <div>Una novela que entusiasmará a los millones de lectores de El resplandor y que encantará...</div>
     </div></a>
   <div class="ebook">
-      <a href="http://www.sensacine.com/peliculas/pelicula-142485/" target="_blank"><img src="../img/elciclodelhombrelobo.jpeg" alt="ebook 3">
+      <a href="https://www.filmaffinity.com/es/film336427.html"><img src="../img/elciclodelhombrelobo.jpeg" alt="ebook 3">
     <div>Una escalofriante revisión del mito del hombre lobo por el rey de la literatura de terror...</div>
     </div></a>
     <div class="ebook">
-      <a href="http://www.sensacine.com/peliculas/pelicula-863/" target="_blank"><img src="../img/elresplandor.jpeg" alt="ebook 3">
+      <a href="https://www.filmaffinity.com/es/film598422.html"><img src="../img/elresplandor.jpeg" alt="ebook 3">
     <div>Esa es la palabra que Danny había visto en el espejo. Y, aunque no sabía leer, entendió que era un mensaje de horror...</div>
-    </div></a>
- </div>-->
+    </div></a> -->
+
+  <?php
+    //Conexion a BDE
+    include "../services/connection.php";
+    //Seleccion y muestra de base de datos
+    $result = mysqli_query($conexion, "SELECT Books.Description, Books.img, Books.Title FROM Books WHERE eBook != '0'");
+
+    if(!empty($result) && mysqli_num_rows($result) > 0) {
+    //Datos de salirda de cada fila (fila = row)
+    $i=0;
+      while ($row = mysqli_fetch_array($result)) {
+        $i++;
+        echo "<div class='ebook'>";
+          //Añadimos la imagen la pagina con la etiqueta img de HTML
+          echo "<img src=../img/".$row['img']." alt=".$row['Title']."'>";
+          //Añadimos el titulo de la pagina con la etiqueta H2
+          echo "<div class='desc'>".$row['Description']."</div>";
+          echo "</div>";
+          if ($i%3==0) { //Modulo es el residuo de una division. Cada numero divisor de 3 hace un intro
+            echo "<div style='clear.both;'></div>'";
+          }
+        }
+      } else{
+        echo "0 resultados";
+      }
+
+   ?>
+ </div>
   
- <?php
- //Conexion a BDE
- include "../services/connection.php";
- //Seleccion y muestra de base de datos
- $result = mysqli_query($conexion, "SELECT Books.Description, Books.img, Books.Title FROM Books WHERE eBook != '0'");
-
- if(!empty($result) && mysqli_num_rows($result) > 0) {
-   //Datos de salirda de cada fila (fila = row)
-   while ($row = mysqli_fetch_array($result)) {
-     echo "<div class='ebook'>";
-     //Añadimos la imagen la pagina con la etiqueta img de HTML
-     echo "<img src=../img/".$row['img']." alt=".$row['Title']."'>";
-     //Añadimos el titulo de la pagina con la etiqueta H2
-     echo "<div class='desc'>".$row['Title']."</div>";
-     echo "</div>";
-   }
- } else{
-   echo "0 resultados";
- }
-
-?>
-
-<div class="column right">
+  <div class="column right">
     <h2>Top ventas</h2>
-<?php
- //Conexion a BDE
- include "../services/connection.php";
- //Seleccion y muestra de base de datos
- $result = mysqli_query($conexion, "SELECT Books.Title FROM Books WHERE Top = '1'");
- if(!empty($result) && mysqli_num_rows($result) > 0) {
-  //Datos de salirda de cada fila (fila = row)
-  while ($row = mysqli_fetch_array($result)) {
-    echo "<p>".$row['Title']."</p>";
-  }
-} else{
-  echo "0 resultados";
-}
-?>
+    <!--<p>Cien años de soledad.</p>
+    <p>Crónica de una muerte anunciada.</p>
+    <p>El otoño del patriarca.</p>
+    <p>El general en su laberinto.</p> -->
 
+    <?php
+    //Conexion a BDE
+    include "../services/connection.php";
+    //Seleccion y muestra de base de datos
+    $result = mysqli_query($conexion, "SELECT Books.Title FROM Books WHERE Top = '1'");
+
+    if(!empty($result) && mysqli_num_rows($result) > 0) {
+      //Datos de salirda de cada fila (fila = row)
+        while ($row = mysqli_fetch_array($result)) {
+          echo "<p>".$row['Title']."</p>";
+          }
+        } else{
+          echo "0 resultados";
+        }
+    ?>
+  </div>
+</div>
   
 </body>
 </html>
